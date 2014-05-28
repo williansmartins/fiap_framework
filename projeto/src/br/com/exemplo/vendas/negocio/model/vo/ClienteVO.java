@@ -1,39 +1,29 @@
 package br.com.exemplo.vendas.negocio.model.vo;
 
-import java.util.Date;
+import java.io.Serializable;
 
-public class ClienteVO extends UsuarioVO {
+public class ClienteVO implements Serializable {
 	
-	private static final long serialVersionUID = 9062887494914643927L;
+	private static final long serialVersionUID = 1L;
 	private Long codigo;
 	private String nome;
 	private String endereco;
-	private Integer telefone;
-	private String situacao;
-	
-	@Override
-	public String toString() {
-		return this.getLogin();
-	}
-	
-//	public String toString() {
-//		return this.getLogin() + ":" + this.getSenha() + ":" + this.getGrupo() + ":" + this.getPerfil() + ":" + this.getBloqueado() + ":" + this.getUltimoAcesso() + ":" + this.codigo + ":" + this.nome + ":" + this.endereco + ":" + this.telefone + ":" + this.situacao;
-//	}
+	private String cidade;
+	private String estado;
+	private String cnpj;
 	
 	public ClienteVO(){}
-	public ClienteVO(String login, String senha, String perfil, Boolean bloqueado, Date ultimoAcesso, Long codigo, String nome, String endereco, Integer telefone, String situacao){
-		this.setLogin(login);
-		this.setSenha(senha);
-		this.setPerfil(perfil);
-		this.setBloqueado(bloqueado);
-		this.setUltimoAcesso(ultimoAcesso);
-		this.codigo = codigo;
+	public ClienteVO(String nome, String cnpj){
+		this.nome = nome;
+		this.cnpj = cnpj;
+	}
+	public ClienteVO(String nome, String endereco, String cidade, String estado, String cnpj){
 		this.nome = nome;
 		this.endereco = endereco;
-		this.telefone = telefone;
-		this.situacao = situacao;
+		this.cidade = cidade;
+		this.estado = estado;
+		this.cnpj = cnpj;
 	}
-	
 	public Long getCodigo() {
 		return codigo;
 	}
@@ -52,17 +42,22 @@ public class ClienteVO extends UsuarioVO {
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
 	}
-	public Integer getTelefone() {
-		return telefone;
+	public String getCidade() {
+		return cidade;
 	}
-	public void setTelefone(Integer telefone) {
-		this.telefone = telefone;
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
 	}
-	public String getSituacao() {
-		return situacao;
+	public String getEstado() {
+		return estado;
 	}
-	public void setSituacao(String situacao) {
-		this.situacao = situacao;
+	public void setEstado(String estado) {
+		this.estado = estado;
 	}
-	
+	public String getCnpj() {
+		return cnpj;
+	}
+	public void setCnpj(String cnpj) {
+		this.cnpj = cnpj;
+	}
 }

@@ -1,49 +1,52 @@
 package br.com.exemplo.vendas.negocio.entity;
 
-import java.util.Date;
+import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 import br.com.exemplo.vendas.negocio.model.vo.ClienteVO;
 
 @Entity
 @Table(name="TBL_CLIENTE")
-@PrimaryKeyJoinColumn(name="LOGIN")
-public class Cliente extends Usuario {
+public class Cliente implements Serializable {
 	
-	private static final long serialVersionUID = 9062887494914643927L;
+	private static final long serialVersionUID = 1L;
 	
-	@Column(name="codigo", nullable=false)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
 	
 	@Column(name="nome", nullable=false)
 	private String nome;
 	
-	@Column(name="endereco", nullable=false)
+	@Column(name="endereco")
 	private String endereco;
 	
-	@Column(name="telefone", nullable=false)
-	private Integer telefone;
+	@Column(name="cidade")
+	private String cidade;
 	
-	@Column(name="situacao", nullable=false)
-	private String situacao;
+	@Column(name="estado")
+	private String estado;
+	
+	@Column(name="cnpj")
+	private String cnpj;
 	
 	public Cliente(){}
-	public Cliente(String login, String senha, String grupo, String perfil, Boolean bloqueado, Date ultimoAcesso, Long codigo, String nome, String endereco, Integer telefone, String situacao){
-		this.setLogin(login);
-		this.setSenha(senha);
-		this.setGrupo(grupo);
-		this.setPerfil(perfil);
-		this.setBloqueado(bloqueado);
-		this.setUltimoAcesso(ultimoAcesso);
-		this.codigo = codigo;
+	public Cliente(String nome, String cnpj){
+		this.nome = nome;
+		this.cnpj = cnpj;
+	}
+	public Cliente(String nome, String endereco, String cidade, String estado, String cnpj){
 		this.nome = nome;
 		this.endereco = endereco;
-		this.telefone = telefone;
-		this.situacao = situacao;
+		this.cidade = cidade;
+		this.estado = estado;
+		this.cnpj = cnpj;
 	}
 	public Long getCodigo() {
 		return codigo;
@@ -63,32 +66,36 @@ public class Cliente extends Usuario {
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
 	}
-	public Integer getTelefone() {
-		return telefone;
+	public String getCidade() {
+		return cidade;
 	}
-	public void setTelefone(Integer telefone) {
-		this.telefone = telefone;
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
 	}
-	public String getSituacao() {
-		return situacao;
+	public String getEstado() {
+		return estado;
 	}
-	public void setSituacao(String situacao) {
-		this.situacao = situacao;
+	public void setEstado(String estado) {
+		this.estado = estado;
 	}
-	
+	public String getCnpj() {
+		return cnpj;
+	}
+	public void setCnpj(String cnpj) {
+		this.cnpj = cnpj;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = super.hashCode();
+		int result = 1;
 		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
 		return result;
 	}
-	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
+		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
@@ -101,32 +108,23 @@ public class Cliente extends Usuario {
 		return true;
 	}
 	
-	public static Cliente create(ClienteVO clienteVO) {
+	public static Cliente create(ClienteVO vo){
 		Cliente cliente = new Cliente();
-		cliente.setLogin(clienteVO.getLogin());
-		cliente.setSenha(clienteVO.getSenha());
-		cliente.setPerfil(clienteVO.getPerfil());
-		cliente.setBloqueado(clienteVO.getBloqueado());
-		cliente.setUltimoAcesso(clienteVO.getUltimoAcesso());
-		cliente.setCodigo(clienteVO.getCodigo());
-		cliente.setNome(clienteVO.getNome());
-		cliente.setEndereco(clienteVO.getEndereco());
-		cliente.setTelefone(clienteVO.getTelefone());
-		cliente.setSituacao(clienteVO.getSituacao());
+		cliente.setNome(vo.getNome());
+		cliente.setEndereco(vo.getEndereco());
+		cliente.setCidade(vo.getCidade());
+		cliente.setEstado(vo.getEstado());
+		cliente.setCnpj(vo.getCnpj());
 		return cliente;
 	}
-	public static ClienteVO create(Cliente cliente) {
-		ClienteVO clienteVO = new ClienteVO();
-		clienteVO.setLogin(cliente.getLogin());
-		clienteVO.setSenha(cliente.getSenha());
-		clienteVO.setPerfil(cliente.getPerfil());
-		clienteVO.setBloqueado(cliente.getBloqueado());
-		clienteVO.setUltimoAcesso(cliente.getUltimoAcesso());
-		clienteVO.setCodigo(cliente.getCodigo());
-		clienteVO.setNome(cliente.getNome());
-		clienteVO.setEndereco(cliente.getEndereco());
-		clienteVO.setTelefone(cliente.getTelefone());
-		clienteVO.setSituacao(cliente.getSituacao());
-		return clienteVO;
+	
+	public static ClienteVO create(Cliente cliente){
+		ClienteVO vo = new ClienteVO();
+		vo.setNome(cliente.getNome());
+		vo.setEndereco(cliente.getEndereco());
+		vo.setCidade(cliente.getCidade());
+		vo.setEstado(cliente.getEstado());
+		vo.setCnpj(cliente.getCnpj());
+		return vo;
 	}
 }

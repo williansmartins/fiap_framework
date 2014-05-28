@@ -1,131 +1,102 @@
 package br.com.exemplo.vendas.negocio.ejb ;
 
 import java.rmi.RemoteException;
-import java.util.List ;
+import java.util.List;
 
-import javax.ejb.Stateless ;
-import javax.persistence.EntityManager ;
-import javax.persistence.PersistenceContext ;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
-import br.com.exemplo.vendas.negocio.dao.DaoFactory ;
-import br.com.exemplo.vendas.negocio.ejb.interfaces.ClienteLocal ;
-import br.com.exemplo.vendas.negocio.ejb.interfaces.ClienteRemote ;
-import br.com.exemplo.vendas.negocio.entity.Cliente ;
-import br.com.exemplo.vendas.negocio.model.vo.ClienteVO ;
-import br.com.exemplo.vendas.util.dto.ServiceDTO ;
-import br.com.exemplo.vendas.util.exception.LayerException ;
+import br.com.exemplo.vendas.negocio.dao.DaoFactory;
+import br.com.exemplo.vendas.negocio.ejb.interfaces.ClienteLocal;
+import br.com.exemplo.vendas.negocio.ejb.interfaces.ClienteRemote;
+import br.com.exemplo.vendas.negocio.entity.Cliente;
+import br.com.exemplo.vendas.negocio.model.vo.ClienteVO;
+import br.com.exemplo.vendas.util.dto.ServiceDTO;
+import br.com.exemplo.vendas.util.exception.LayerException;
 
 @Stateless
 public class ClienteBean implements ClienteRemote, ClienteLocal {
 	
-	@PersistenceContext(unitName = "Vendas")
+	@PersistenceContext( unitName = "Vendas" )
 	EntityManager em ;
 
 	public ServiceDTO inserirCliente(ServiceDTO requestDTO) throws LayerException {
-		ClienteVO vo = (ClienteVO) requestDTO.get("clienteVO");
-		if(vo != null) {
-			Cliente cliente = Cliente.create(vo);
+		ServiceDTO responseDTO = new ServiceDTO();
+		ClienteVO vo = (ClienteVO) requestDTO.get("ClienteVO");
+		if(vo != null){
+			Cliente cliente = new Cliente(vo.getNome(), vo.getEndereco(), vo.getCidade(), vo.getEstado(), vo.getCnpj());
 			if(DaoFactory.getClienteDAO(em).inserir(cliente)){
-				return new ServiceDTO("resposta", new Boolean(true));
+				responseDTO.set("resposta", new Boolean(true));
 			}else{
-				return new ServiceDTO("resposta", new Boolean(false));
+				responseDTO.set( "resposta", new Boolean(false));
 			}
-		}else{
-			return new ServiceDTO("resposta", new Boolean(false));
 		}
+		return responseDTO;
 	}
 
 	public ServiceDTO alterarCliente(ServiceDTO requestDTO) throws LayerException {
-		ClienteVO vo = (ClienteVO) requestDTO.get("clienteVO");
+		ServiceDTO responseDTO = new ServiceDTO();
+		ClienteVO vo = (ClienteVO) requestDTO.get("ClienteVO");
 		if(vo != null){
-			Cliente cliente = Cliente.create(vo);
+			Cliente cliente = new Cliente(vo.getNome(), vo.getEndereco(), vo.getCidade(), vo.getEstado(), vo.getCnpj());
 			if(DaoFactory.getClienteDAO(em).alterar(cliente)){
-				return new ServiceDTO("resposta", new Boolean(true));
+				responseDTO.set("resposta", new Boolean(true));
 			}else{
-				return new ServiceDTO("resposta", new Boolean(false));
+				responseDTO.set( "resposta", new Boolean(false));
 			}
-		}else{
-			return new ServiceDTO("resposta", new Boolean(false));
 		}
+		return responseDTO;
 	}
 
-	public ServiceDTO excluirCliente(ServiceDTO requestDTO) throws LayerException {
-		ClienteVO vo = (ClienteVO) requestDTO.get("clienteVO");
-		if(vo != null){
-			try{
-				Cliente cliente = DaoFactory.getClienteDAO(em).localizarPorLogin(vo.getLogin());
-				if(DaoFactory.getClienteDAO(em).excluir(cliente)){
-					return new ServiceDTO("resposta", new Boolean(true));
-				}else{
-					return new ServiceDTO("resposta", new Boolean(false));
-				}
-			}catch(Exception e){
-				return new ServiceDTO("resposta", new Boolean(false));
+	public ServiceDTO excluirClientePorNome(ServiceDTO requestDTO) throws LayerException {
+		ServiceDTO responseDTO = new ServiceDTO();
+		String nome = (String) requestDTO.get("nome");
+		if(nome != null){
+			if(DaoFactory.getClienteDAO(em).excluir(nome)){
+				responseDTO.set("resposta", new Boolean(true));
+			}else{
+				responseDTO.set("resposta", new Boolean(false));
 			}
-		}else{
-			return new ServiceDTO("resposta", new Boolean(false));
 		}
+		return responseDTO;
 	}
 	
-	public ServiceDTO excluirClientePorLogin(ServiceDTO requestDTO) throws LayerException, RemoteException {
-		String login = (String) requestDTO.get("loginCliente");
-		if(login != null){
-			if(DaoFactory.getClienteDAO(em).excluir(login)){
-				return new ServiceDTO("resposta", new Boolean(true));
+	public ServiceDTO excluirClientePorCodigo(ServiceDTO requestDTO) throws LayerException {
+		ServiceDTO responseDTO = new ServiceDTO();
+		Long codigo = (Long) requestDTO.get("codigo");
+		if(codigo != null){
+			if(DaoFactory.getClienteDAO(em).excluir(codigo)){
+				responseDTO.set("resposta", new Boolean(true));
 			}else{
-				return new ServiceDTO("resposta", new Boolean(false));
+				responseDTO.set("resposta", new Boolean(false));
 			}
-		}else{
-			return new ServiceDTO("resposta", new Boolean(false));
 		}
-	}
-
-	public ServiceDTO selecionarTodosClientes(ServiceDTO requestDTO) throws LayerException {
-		List<Cliente> clientes = DaoFactory.getClienteDAO(em).listar();
-		if((clientes != null) && (!clientes.isEmpty())) {
-			ClienteVO[] clienteVOs = new ClienteVO[clientes.size()];
-			for(int i = 0; i < clientes.size(); i++){
-				Cliente cliente = (Cliente) clientes.get(i);
-				ClienteVO clienteVO = Cliente.create(cliente);
-				clienteVOs[i] = clienteVO;
-			}
-			return new ServiceDTO("resposta", clienteVOs);
-		}else{
-			return new ServiceDTO("resposta", new ClienteVO[0]);
-		}
-	}
-
-	public ServiceDTO getCliente(ServiceDTO requestDTO, String login) throws LayerException {
-		try{
-			Cliente cliente = DaoFactory.getClienteDAO(em).localizarPorLogin(login);
-			if(cliente != null) {
-				ClienteVO clienteVO = Cliente.create(cliente);
-				return new ServiceDTO("resposta", clienteVO);
-			}else{
-				return new ServiceDTO("resposta", null);
-			}
-		}catch(Exception e){
-			return new ServiceDTO("resposta", null);
-		}
+		return responseDTO;
 	}
 
 	@Override
-	public ServiceDTO localizarClientesPorCompra(ServiceDTO requestDTO) throws LayerException, RemoteException {
-		try{
-			List<Cliente> clientes = DaoFactory.getClienteDAO(em).localizarPorCompra();
-			if((clientes != null) && (!clientes.isEmpty())) {
-				ClienteVO[] clienteVOs = new ClienteVO[clientes.size()];
-				for(int i = 0; i < clientes.size(); i++){
-					Cliente cliente = (Cliente) clientes.get(i);
-					ClienteVO clienteVO = Cliente.create(cliente);
-					clienteVOs[i] = clienteVO;
-				}
-				return new ServiceDTO("clientesPorCompraRealizadas", clienteVOs);
-			}else{
-				return new ServiceDTO("clientesPorCompraRealizadas", new ClienteVO[0]);
-			}
-		}catch(Exception e){
-			return new ServiceDTO("clientesPorCompraRealizadas", new ClienteVO[0]);
+	public ServiceDTO localizarPorNome(ServiceDTO requestDTO, String login) throws LayerException, RemoteException {
+		ServiceDTO responseDTO = new ServiceDTO();
+		String nome = (String) requestDTO.get("nome");
+		if(nome != null){
+			Cliente cliente = DaoFactory.getClienteDAO(em).localizarPorNome(nome);
+			ClienteVO vo = Cliente.create(cliente);
+			responseDTO.set("NotaFiscalServicoVO", vo);
 		}
+		return responseDTO;
+	}
+
+	public ServiceDTO selecionarTodosCliente(ServiceDTO requestDTO) throws LayerException {
+		ServiceDTO responseDTO = new ServiceDTO();
+		List<Cliente> clientes = DaoFactory.getClienteDAO(em).listar();
+		ClienteVO[] clienteVOs = new ClienteVO[clientes.size()];
+		for(int i=0, x=clientes.size(); i<x ; i++){
+			Cliente cliente = clientes.get(i);
+			ClienteVO vo = Cliente.create(cliente);
+			clienteVOs[i] = vo;
+		}
+		responseDTO.set("listaClienteVO", clienteVOs);
+		return responseDTO ;
 	}
 }
