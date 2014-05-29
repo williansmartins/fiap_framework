@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import br.com.exemplo.vendas.negocio.model.vo.BoletoVO;
+
 @Entity
 @Table(name="TBL_NOTA_FISCAL_SERVICO")
 public class Boleto implements Serializable {
@@ -127,5 +129,31 @@ public class Boleto implements Serializable {
 		} else if (!codigoBarra.equals(other.codigoBarra))
 			return false;
 		return true;
+	}
+	
+	public static BoletoVO create(Boleto boleto){
+		BoletoVO vo = new BoletoVO();
+		vo.setCodigoBarra(boleto.getCodigoBarra());
+		vo.setNomeBanco(boleto.getCodigoBarra());
+		vo.setObservacao(boleto.getCodigoBarra());
+		vo.setDataDocumento(boleto.getDataDocumento());
+		vo.setDataVencimento(boleto.getDataVencimento());
+		vo.setValorDocumento(boleto.getValorDocumento());
+		vo.setMulta(boleto.getMulta());
+		vo.setValorCobrado(boleto.getValorCobrado());
+		return vo;
+	}
+	
+	public static Boleto create(BoletoVO vo){
+		Boleto boleto = new Boleto();
+		boleto.setCodigoBarra(vo.getCodigoBarra());
+		boleto.setNomeBanco(vo.getCodigoBarra());
+		boleto.setObservacao(vo.getCodigoBarra());
+		boleto.setDataDocumento(vo.getDataDocumento());
+		boleto.setDataVencimento(vo.getDataVencimento());
+		boleto.setValorDocumento(vo.getValorDocumento());
+		boleto.setMulta(vo.getMulta());
+		boleto.setValorCobrado(vo.getValorCobrado());
+		return boleto;
 	}
 }

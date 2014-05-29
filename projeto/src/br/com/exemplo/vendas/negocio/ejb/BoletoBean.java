@@ -26,8 +26,8 @@ public class BoletoBean implements BoletoRemote, BoletoLocal {
 		ServiceDTO responseDTO = new ServiceDTO();
 		BoletoVO vo = (BoletoVO)requestDTO.get("BoletoVO");
 		if(vo != null){
-			Boleto boleto = new Boleto(vo.getNumero(), vo.getDiscriminacaoGeral(), vo.getData(), vo.getValor());
-			if(DaoFactory.getBoletoDAO(em).inserir(notaFiscalServico)){
+			Boleto boleto = new Boleto(vo.getCodigoBarra(), vo.getNomeBanco(), vo.getObservacao(), vo.getDataDocumento(), vo.getDataVencimento(), vo.getValorDocumento(), vo.getMulta(), vo.getValorCobrado());
+			if(DaoFactory.getBoletoDAO(em).inserir(boleto)){
 				responseDTO.set("resposta", new Boolean(true));
 			}else{
 				responseDTO.set("resposta", new Boolean(false));
@@ -41,8 +41,8 @@ public class BoletoBean implements BoletoRemote, BoletoLocal {
 		ServiceDTO responseDTO = new ServiceDTO();
 		BoletoVO vo = (BoletoVO)requestDTO.get("BoletoVO");
 		if(vo != null){
-			Boleto boleto = new Boleto(vo.getNumero(), vo.getDiscriminacaoGeral(), vo.getData(), vo.getValor());
-			if(DaoFactory.getBoletoDAO(em).alterar(notaFiscalServico)){
+			Boleto boleto = new Boleto(vo.getCodigoBarra(), vo.getNomeBanco(), vo.getObservacao(), vo.getDataDocumento(), vo.getDataVencimento(), vo.getValorDocumento(), vo.getMulta(), vo.getValorCobrado());
+			if(DaoFactory.getBoletoDAO(em).alterar(boleto)){
 				responseDTO.set("resposta", new Boolean(true));
 			}else{
 				responseDTO.set("resposta", new Boolean(false));
@@ -66,19 +66,19 @@ public class BoletoBean implements BoletoRemote, BoletoLocal {
 	}
 
 	@Override
-	public ServiceDTO localizarPorNumero(ServiceDTO requestDTO) throws LayerException, RemoteException {
+	public ServiceDTO localizarPorCodigoBarra(ServiceDTO requestDTO) throws LayerException, RemoteException {
 		ServiceDTO responseDTO = new ServiceDTO();
 		String numero = (String)requestDTO.get("numero");
 		if(numero != null){
-			Boleto nfs = DaoFactory.getBoletoDAO(em).localizarPorNumero(numero);
-			BoletoVO vo = Boleto.create(nfs);
+			Boleto boleto = DaoFactory.getBoletoDAO(em).localizarPorCodigoBarra(numero);
+			BoletoVO vo = Boleto.create(boleto);
 			responseDTO.set("BoletoVO", vo);
 		}
 		return responseDTO;
 	}
 
 	@Override
-	public ServiceDTO selecionarTodosNfe(ServiceDTO requestDTO) throws LayerException, RemoteException {
+	public ServiceDTO selecionarTodosBoleto(ServiceDTO requestDTO) throws LayerException, RemoteException {
 		ServiceDTO responseDTO = new ServiceDTO();
 		String numero = (String)requestDTO.get("numero");
 		if(numero != null){
