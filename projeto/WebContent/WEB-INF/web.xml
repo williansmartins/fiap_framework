@@ -7,23 +7,36 @@
 		<servlet-name>controlador</servlet-name>
 		<servlet-class>br.com.exemplo.vendas.apresentacao.web.Controller</servlet-class>
 	</servlet>
-
+	<servlet>
+		<servlet-name>jcaptcha</servlet-name>
+		<servlet-class>br.com.exemplo.vendas.autenticar.CaptchaServlet</servlet-class>
+	</servlet>
 	<servlet>
 		<servlet-name>Faces Servlet</servlet-name>
 		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
-
+	<servlet>
+		<servlet-name>autenticar</servlet-name>
+		<servlet-class>br.com.exemplo.vendas.autenticar.Autenticar</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>jcaptcha</servlet-name>
+		<url-pattern>/jcaptcha.jpg</url-pattern>
+	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>controlador</servlet-name>
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
-	
 	<servlet-mapping>
 		<servlet-name>Faces Servlet</servlet-name>
 		<url-pattern>*.xhtml</url-pattern>
 	</servlet-mapping>
-
+	<servlet-mapping>
+		<servlet-name>autenticar</servlet-name>
+		<url-pattern>/autenticar</url-pattern>
+	</servlet-mapping>
+	
 	<welcome-file-list>
 		<welcome-file>index.xhtml</welcome-file>
 	</welcome-file-list>
