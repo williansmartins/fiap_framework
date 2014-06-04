@@ -76,18 +76,30 @@ public class ClienteBean implements ClienteRemote, ClienteLocal {
 	}
 
 	@Override
-	public ServiceDTO localizarPorNome(ServiceDTO requestDTO, String login) throws LayerException, RemoteException {
+	public ServiceDTO localizarClientePorNome(ServiceDTO requestDTO) throws LayerException, RemoteException {
 		ServiceDTO responseDTO = new ServiceDTO();
 		String nome = (String) requestDTO.get("nome");
 		if(nome != null){
 			Cliente cliente = DaoFactory.getClienteDAO(em).localizarPorNome(nome);
 			ClienteVO vo = Cliente.create(cliente);
-			responseDTO.set("NotaFiscalServicoVO", vo);
+			responseDTO.set("resposta", vo);
 		}
 		return responseDTO;
 	}
 
-	public ServiceDTO selecionarTodosCliente(ServiceDTO requestDTO) throws LayerException {
+	@Override
+	public ServiceDTO localizarClientePorCodigo(ServiceDTO requestDTO) throws LayerException, RemoteException {
+		ServiceDTO responseDTO = new ServiceDTO();
+		Long codigo = (Long) requestDTO.get("codigo");
+		if(codigo != null){
+			Cliente cliente = DaoFactory.getClienteDAO(em).localizar(codigo);
+			ClienteVO vo = Cliente.create(cliente);
+			responseDTO.set("resposta", vo);
+		}
+		return responseDTO;
+	}
+
+	public ServiceDTO selecionarTodosClientes(ServiceDTO requestDTO) throws LayerException {
 		ServiceDTO responseDTO = new ServiceDTO();
 		List<Cliente> clientes = DaoFactory.getClienteDAO(em).listar();
 		ClienteVO[] clienteVOs = new ClienteVO[clientes.size()];
@@ -96,7 +108,7 @@ public class ClienteBean implements ClienteRemote, ClienteLocal {
 			ClienteVO vo = Cliente.create(cliente);
 			clienteVOs[i] = vo;
 		}
-		responseDTO.set("listaClienteVO", clienteVOs);
+		responseDTO.set("resposta", clienteVOs);
 		return responseDTO ;
 	}
 }

@@ -10,6 +10,6 @@ public interface NotaFiscalServicoInterface {
 	public ServiceDTO inserirNfs(ServiceDTO requestDTO) throws LayerException, RemoteException;
 	public ServiceDTO alterarNfs(ServiceDTO requestDTO) throws LayerException, RemoteException;
 	public ServiceDTO excluirNfs(ServiceDTO requestDTO) throws LayerException, RemoteException;
-	public ServiceDTO selecionarTodosNfe(ServiceDTO requestDTO) throws LayerException, RemoteException;
-	public ServiceDTO localizarPorNumero(ServiceDTO requestDTO) throws LayerException, RemoteException;
+	public ServiceDTO selecionarTodosNfs(ServiceDTO requestDTO) throws LayerException, RemoteException;
+	public ServiceDTO localizarNfsPorNumero(ServiceDTO requestDTO) throws LayerException, RemoteException;
 }

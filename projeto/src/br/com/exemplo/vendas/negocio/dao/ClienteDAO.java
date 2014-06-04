@@ -74,6 +74,17 @@ public class ClienteDAO extends GenericDAO<Cliente> {
 		}
 	}
 
+	public Cliente localizarPorCodigo(Long codigo){
+		try{
+			return em.find(Cliente.class, codigo);
+		}catch(Exception e){
+			if(debugInfo){
+				e.printStackTrace();
+			}
+			return null;
+		}
+	}
+	
 	public Cliente localizarPorNome(String nome){
 		try{
 			Query query = em.createQuery("from Cliente where nome = :nome");

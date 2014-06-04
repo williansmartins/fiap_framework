@@ -78,7 +78,7 @@ public class BoletoBean implements BoletoRemote, BoletoLocal {
 	}
 
 	@Override
-	public ServiceDTO selecionarTodosBoleto(ServiceDTO requestDTO) throws LayerException, RemoteException {
+	public ServiceDTO selecionarTodosBoletos(ServiceDTO requestDTO) throws LayerException, RemoteException {
 		ServiceDTO responseDTO = new ServiceDTO();
 		String numero = (String)requestDTO.get("numero");
 		if(numero != null){

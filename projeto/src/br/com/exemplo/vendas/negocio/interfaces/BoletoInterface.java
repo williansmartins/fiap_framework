@@ -10,6 +10,6 @@ public interface BoletoInterface {
 	public ServiceDTO inserirBoleto(ServiceDTO requestDTO) throws LayerException, RemoteException;
 	public ServiceDTO alterarBoleto(ServiceDTO requestDTO) throws LayerException, RemoteException;
 	public ServiceDTO excluirBoleto(ServiceDTO requestDTO) throws LayerException, RemoteException;
-	public ServiceDTO selecionarTodosBoleto(ServiceDTO requestDTO) throws LayerException, RemoteException;
+	public ServiceDTO selecionarTodosBoletos(ServiceDTO requestDTO) throws LayerException, RemoteException;
 	public ServiceDTO localizarPorCodigoBarra(ServiceDTO requestDTO) throws LayerException, RemoteException;
 }

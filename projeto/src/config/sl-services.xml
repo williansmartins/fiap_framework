@@ -1,29 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <services>
-	<!-- Usuario -->
-	<service>
-		<name>UsuarioBean/remote</name>
-		<jndi-name>UsuarioBean/remote</jndi-name>
-		<cacheable>true</cacheable>
-		<providers>
-			<provider>
-				<name>jboss@localhost:18080</name>
-			</provider>
-		</providers>
-	</service>
-	
-	<!-- Produto -->
-	<service>
-		<name>ProdutoBean/remote</name>
-		<jndi-name>ProdutoBean/remote</jndi-name>
-		<cacheable>true</cacheable>
-		<providers>
-			<provider>
-				<name>jboss@localhost:18080</name>
-			</provider>
-		</providers>
-	</service>
-	
 	<!-- Cliente -->
 	<service>
 		<name>ClienteBean/remote</name>
@@ -36,10 +12,10 @@
 		</providers>
 	</service>
 	
-	<!-- Cliente Fisico -->
+	<!-- Boleto -->
 	<service>
-		<name>ClienteFisicoBean/remote</name>
-		<jndi-name>ClienteFisicoBean/remote</jndi-name>
+		<name>BoletoBean/remote</name>
+		<jndi-name>BoletoBean/remote</jndi-name>
 		<cacheable>true</cacheable>
 		<providers>
 			<provider>
@@ -48,57 +24,10 @@
 		</providers>
 	</service>
 	
-	<!-- Cliente Juridico -->
+	<!-- Nota Fiscal Servico -->
 	<service>
-		<name>ClienteJuridicoBean/remote</name>
-		<jndi-name>ClienteJuridicoBean/remote</jndi-name>
-		<cacheable>true</cacheable>
-		<providers>
-			<provider>
-				<name>jboss@localhost:18080</name>
-			</provider>
-		</providers>
-	</service>
-	
-	<!-- Reserva -->
-	<service>
-		<name>ReservaBean/remote</name>
-		<jndi-name>ReservaBean/remote</jndi-name>
-		<cacheable>true</cacheable>
-		<providers>
-			<provider>
-				<name>jboss@localhost:18080</name>
-			</provider>
-		</providers>
-	</service>
-	
-	<!-- Compra -->
-	<service>
-		<name>CompraBean/remote</name>
-		<jndi-name>CompraBean/remote</jndi-name>
-		<cacheable>true</cacheable>
-		<providers>
-			<provider>
-				<name>jboss@localhost:18080</name>
-			</provider>
-		</providers>
-	</service>
-	
-	<!-- Item -->
-	<service>
-		<name>ItemBean/remote</name>
-		<jndi-name>ItemBean/remote</jndi-name>
-		<cacheable>true</cacheable>
-		<providers>
-			<provider>
-				<name>jboss@localhost:18080</name>
-			</provider>
-		</providers>
-	</service>
-	
-	<service>
-		<name>RecebeRequisicaoBean/remote</name>
-		<jndi-name>RecebeRequisicaoBean/remote</jndi-name>
+		<name>NotaFiscalServicoBean/remote</name>
+		<jndi-name>NotaFiscalServicoBean/remote</jndi-name>
 		<cacheable>true</cacheable>
 		<providers>
 			<provider>

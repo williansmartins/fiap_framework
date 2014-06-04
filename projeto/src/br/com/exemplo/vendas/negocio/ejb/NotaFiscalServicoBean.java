@@ -66,7 +66,7 @@ public class NotaFiscalServicoBean implements NotaFiscalServicoRemote, NotaFisca
 	}
 
 	@Override
-	public ServiceDTO localizarPorNumero(ServiceDTO requestDTO) throws LayerException, RemoteException {
+	public ServiceDTO localizarNfsPorNumero(ServiceDTO requestDTO) throws LayerException, RemoteException {
 		ServiceDTO responseDTO = new ServiceDTO();
 		String numero = (String)requestDTO.get("numero");
 		if(numero != null){
@@ -78,7 +78,7 @@ public class NotaFiscalServicoBean implements NotaFiscalServicoRemote, NotaFisca
 	}
 
 	@Override
-	public ServiceDTO selecionarTodosNfe(ServiceDTO requestDTO) throws LayerException, RemoteException {
+	public ServiceDTO selecionarTodosNfs(ServiceDTO requestDTO) throws LayerException, RemoteException {
 		ServiceDTO responseDTO = new ServiceDTO();
 		List<NotaFiscalServico> nfss = DaoFactory.getNotaFiscalServicoDAO(em).listar();
 		NotaFiscalServicoVO[] nfssVO = new NotaFiscalServicoVO[nfss.size()];
